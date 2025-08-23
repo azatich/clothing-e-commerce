@@ -1,0 +1,22 @@
+export type Hoodie = {
+  id: number;
+  name: string;
+  color: string;
+  size: string;
+  quantity: number;
+  image_url: string;
+  price: number;
+  discount_percent: number;
+};
+
+export type CartProduct = {
+  id: number;
+  name: string;
+  product_id: number;
+  color: string;
+  size: string;
+  quantity: number;
+  price: number;
+  discount_percent: number;
+  image_url: string;
+};
