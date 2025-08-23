@@ -1,7 +1,7 @@
-import { Product } from "../types/products";
+import { Hoodie } from "../types/products";
 
 export const handleIncrement = (
-  hoodie: Product,
+  hoodie: Hoodie,
   setSelectedQuantities: React.Dispatch<
     React.SetStateAction<Record<number, number>>
   >
@@ -13,7 +13,7 @@ export const handleIncrement = (
 };
 
 export const handleDecrement = (
-  hoodie: Product,
+  hoodie: Hoodie,
   setSelectedQuantities: React.Dispatch<
     React.SetStateAction<Record<number, number>>
   >
