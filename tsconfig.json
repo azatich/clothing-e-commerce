@@ -29,11 +29,13 @@
     ]
   },
   "include": [
+    "video.d.ts",
+    "video.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-, "src/app/models/User.js", "tailwind.config.js"  ],
+, "src/app/models/User.js", "tailwind.config.js", "next.config.js"  ],
   "exclude": [
     "node_modules"
   ]
