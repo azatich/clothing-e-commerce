@@ -1,9 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
+import { Hoodie } from "../types/products";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export async function addToCart(product, quantity = 1) {
+export async function addToCart(product: Hoodie, quantity = 1) {
   const { data: userData } = await supabase.auth.getUser();
   const user_id = userData?.user?.id;
   if (!user_id) return;
