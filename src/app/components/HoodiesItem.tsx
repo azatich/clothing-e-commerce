@@ -8,7 +8,7 @@ import { handleDecrement, handleIncrement } from "@/app/lib/manageQuantity";
 
 import React, { useState } from "react";
 import { Hoodie } from "@/types/products";
-import { addToCart } from "../(auth)/actions";
+import { addToCart } from "../lib/add-to-cart";
 import { toast } from "react-toastify";
 
 const HoodiesItem = ({
