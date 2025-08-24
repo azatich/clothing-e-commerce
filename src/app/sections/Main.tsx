@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Video from 'next-video';
 import getStarted from '/videos/main.mp4';
+import Link from "next/link";
 
 
 const HomePage = () => {
@@ -120,9 +121,9 @@ const HomePage = () => {
             </span>
           </h1>
           
-          <button className="px-6 py-3 border-2 border-white text-white bg-transparent font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 shadow-lg backdrop-blur-sm">
+          <Link href='/hoodies' className="px-6 py-3 border-2 border-white text-white bg-transparent font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 shadow-lg backdrop-blur-sm">
             Explore Collection
-          </button>
+          </Link>
         </div>
       </div>
     </div>

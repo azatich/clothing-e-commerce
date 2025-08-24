@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/app/lib/supabaseClient";
-import { CartProduct, Hoodie } from "@/app/types/products";
+import { CartProduct, Hoodie } from "@/types/products";
 import Link from "next/link";
 import { Result, Button } from "antd";
-import CartSkeleton from "@/components/CartSkeleton";
+import CartSkeleton from "@/app/components/CartSkeleton";
 import { toast } from "react-toastify";
-import CartOrderSummary from "@/components/CartOrderSummary";
-import Sidebar from "@/components/Sidebar";
-import CartItem from "@/components/CartItem";
-import SidebarSkeleton from "@/components/SidebarSkeleton";
+import CartOrderSummary from "@/app/components/CartOrderSummary";
+import Sidebar from "@/app/components/Sidebar";
+import CartItem from "@/app/components/CartItem";
+import SidebarSkeleton from "@/app/components/SidebarSkeleton";
+import { createClient } from "@/utils/supabase/clients";
 
 const CartPage = () => {
+  const supabase = createClient();
   const handleDeleteItemCart = async (itemId: number) => {
     const { error } = await supabase.from("cart").delete().eq("id", itemId);
 
@@ -133,10 +134,8 @@ const CartPage = () => {
                 title="Your Cart is Empty"
                 subTitle="Looks like you haven't added anything yet. Start shopping now!"
                 extra={
-                  <Link href="/hoodies">
-                    <Button type="primary" size="large">
-                      Browse Hoodies
-                    </Button>
+                  <Link href="/hoodies" className="!text-white !bg-black !border px-5 py-3 rounded-xl hover:!bg-white hover:!text-black transition duration-300 ">
+                    Browse Collection
                   </Link>
                 }
               />

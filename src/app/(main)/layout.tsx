@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -9,7 +9,8 @@ export default function RootLayout({
     <>
       <div className="flex-1">
         <Navbar />
-        {children}</div>
+        {children}
+      </div>
     </>
   );
 }

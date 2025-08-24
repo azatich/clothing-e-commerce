@@ -1,12 +1,9 @@
-import { Metadata } from "next";
 import "../styles/globals.css";
 import "../styles/nprogress.css";
-import { UserProvider } from "./context/UserContext";
-import { ToastContainer } from "react-toastify";
-import ProgressBar from "@/components/ProgressBar";
-import { Poppins } from "next/font/google";
+import { Poppins } from "next/font/google"; // ✅ new file for client providers
+import Providers from "./providers";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Hoodie",
   icons: {
     icon: "/images/favicon.webp",
@@ -23,9 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <ProgressBar />
-        <ToastContainer />
-        <UserProvider>{children}</UserProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

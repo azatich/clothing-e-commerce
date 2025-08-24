@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { supabase } from "@/app/lib/supabaseClient";
-import Sidebar from "@/components/Sidebar";
-import Skeleton from "@/components/Skeleton";
-import { Hoodie } from "@/app/types/products";
+import Sidebar from "@/app/components/Sidebar";
+import Skeleton from "@/app/components/Skeleton";
+import { Hoodie } from "@/types/products";
 import { Input, Select } from "antd";
-import HoodiesItem from "@/components/HoodiesItem";
+import HoodiesItem from "@/app/components/HoodiesItem";
+import { createClient } from "@/utils/supabase/clients";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -14,10 +14,11 @@ const { Option } = Select;
 const HoodiesPage = () => {
   const [hoodies, setHoodies] = useState<Hoodie[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBySize, setSearchBySize] = useState("");
   const [sortBy, setSortBy] = useState<string>("");
+
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchHoodies = async () => {
@@ -54,7 +55,6 @@ const HoodiesPage = () => {
           <Sidebar />
         </div>
         <main className="flex-1 py-10 px-4">
-
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
             <Search
               placeholder="Search hoodies..."

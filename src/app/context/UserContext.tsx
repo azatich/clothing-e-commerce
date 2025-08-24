@@ -1,5 +1,6 @@
 "use client";
 
+import { createClient } from "@/utils/supabase/clients";
 import {
   createContext,
   useContext,
@@ -7,7 +8,6 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { supabase } from "@/app/lib/supabaseClient";
 
 type UserContextType = {
   username: string;
@@ -18,6 +18,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [username, setUsername] = useState<string>("");
+  const supabase = createClient();
 
   useEffect(() => {
     const getUser = async () => {

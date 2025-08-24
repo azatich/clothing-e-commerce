@@ -1,9 +1,8 @@
-import { CartProduct, Hoodie } from "@/app/types/products";
+import { CartProduct, Hoodie } from "@/types/products";
 import Image from "next/image";
 import React from "react";
 import { MdDelete } from "react-icons/md";
-import { FaMinus, FaPlus  } from "react-icons/fa6";
-
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 const CartItem = ({
   item,
@@ -43,25 +42,25 @@ const CartItem = ({
         {/* Quantity Controls */}
         <div className="flex items-center gap-2 mt-3">
           <button
-            className="bg-gray-200 text-black px-2 py-1 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => updateQuantity(item, item.quantity - 1)}
             disabled={item.quantity <= 1}
           >
-            <FaMinus />
+            <MinusOutlined />
           </button>
           <span className="px-3 font-semibold">{item.quantity}</span>
           <button
-            className="bg-gray-200 text-black px-2 py-1 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => updateQuantity(item, item.quantity + 1)}
             disabled={hoodie ? item.quantity >= hoodie.quantity : false}
           >
-            <FaPlus />
+            <PlusOutlined />
           </button>
         </div>
 
         {/* Delete Button */}
         <button
-          className="mt-4 flex items-center gap-2 bg-red-500 px-3 py-2 rounded-lg hover:bg-red-600 text-white transition"
+          className="mt-4 flex items-center gap-2 bg-red-500 px-3 py-2 rounded-lg hover:bg-red-900 text-white transition duration-300"
           onClick={() => handleDeleteItemCart(item.id)}
         >
           <MdDelete /> Delete

@@ -1,4 +1,4 @@
-import { Hoodie } from "../types/products";
+import { Hoodie } from "../../types/products";
 
 export const handleIncrement = (
   hoodie: Hoodie,

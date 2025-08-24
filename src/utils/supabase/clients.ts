@@ -1,15 +1,16 @@
-import { createClient } from "@supabase/supabase-js";
-import { Hoodie } from "../types/products";
+import { createBrowserClient } from '@supabase/ssr'
+import { Hoodie } from "../../types/products";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 export async function addToCart(product: Hoodie, quantity = 1) {
   const { data: userData } = await supabase.auth.getUser();
+  console.log(userData);
+  
   const user_id = userData?.user?.id;
   if (!user_id) return;
 
-  // Check if product already exists in cart for this user
   const { data: existing, error: fetchError } = await supabase
     .from("cart")
     .select("*")
@@ -18,7 +19,6 @@ export async function addToCart(product: Hoodie, quantity = 1) {
     .single();
 
   if (fetchError && fetchError.code !== "PGRST116") {
-    // PGRST116: No rows found, not an error for our case
     console.error("Error checking cart:", fetchError);
     return;
   }
@@ -53,4 +53,9 @@ export async function addToCart(product: Hoodie, quantity = 1) {
   }
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export function createClient() {
+  return createBrowserClient(
+    supabaseUrl,
+    supabaseAnonKey
+  )
+}

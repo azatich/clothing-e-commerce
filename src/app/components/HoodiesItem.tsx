@@ -7,9 +7,9 @@ import {
 import { handleDecrement, handleIncrement } from "@/app/lib/manageQuantity";
 
 import React, { useState } from "react";
-import { Hoodie } from "@/app/types/products";
+import { Hoodie } from "@/types/products";
+import { addToCart } from "../(auth)/actions";
 import { toast } from "react-toastify";
-import { addToCart } from "@/app/lib/supabaseClient";
 
 const HoodiesItem = ({
   hoodie,
@@ -21,20 +21,15 @@ const HoodiesItem = ({
   const [selectedQuantities, setSelectedQuantities] = useState<
     Record<number, number>
   >({});
-
   const selectedQty = selectedQuantities[hoodie.id] || 1;
 
-  const handleAddToCart = async (hoodie: Hoodie) => {
-    const qty = selectedQuantities[hoodie.id] || 1;
-    await addToCart(hoodie, qty);
-    setSelectedQuantities((prev) => {
-      const { [hoodie.id]: _, ...rest } = prev;
-      return rest;
-    });
-    toast.success("Added to Cart", {
-      position: "top-center",
-      autoClose: 2300,
-    });
+  const handleAddToCart = async () => {
+    const result = await addToCart(hoodie, selectedQty);
+    if (result.success) {
+      toast.success("Hoodie added to cart!");
+    } else {
+      toast.error(result.error);
+    }
   };
 
   return (
@@ -77,9 +72,10 @@ const HoodiesItem = ({
             </span>
           )}
         </div>
-        <div className="mt-auto flex items-center gap-2">
-          <button
-            className="bg-gray-200 text-black px-2 py-1 rounded hover:bg-gray-300"
+        <div className="flex flex-col gap-2">
+          <div>
+            <button
+            className="bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300"
             onClick={() => handleDecrement(hoodie, setSelectedQuantities)}
             disabled={selectedQty <= 1}
           >
@@ -87,7 +83,7 @@ const HoodiesItem = ({
           </button>
           <span className="font-semibold text-black px-2">{selectedQty}</span>
           <button
-            className={`bg-gray-200 text-black px-2 py-1 rounded hover:bg-gray-300 ${
+            className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${
               selectedQty >= hoodie.quantity
                 ? "opacity-50 cursor-not-allowed"
                 : ""
@@ -97,12 +93,13 @@ const HoodiesItem = ({
           >
             <PlusOutlined />
           </button>
+          </div>
           <button
-            className="bg-black text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors duration-200 ml-4"
-            onClick={() => handleAddToCart(hoodie)}
+            className="bg-black text-white border px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-colors duration-300"
+            onClick={() => handleAddToCart()}
           >
+            Add to
             <ShoppingCartOutlined />
-            Cart
           </button>
         </div>
       </div>

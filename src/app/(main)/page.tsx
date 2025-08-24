@@ -1,4 +1,4 @@
-import HomePageSection from "@/sections/Main";
+import HomePageSection from "@/app/sections/Main";
 
 export default function HomePage() {
     return <HomePageSection />
