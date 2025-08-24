@@ -72,7 +72,7 @@ const HomePage = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [currentWordIndex]);
+  }, [currentWordIndex, words]);
 
   // Start initial animation
   useEffect(() => {

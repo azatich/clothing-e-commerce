@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/app/context/UserContext";
 import { login } from "../actions";
 import { CiMail } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
@@ -12,11 +11,10 @@ export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUsername } = useUser();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    setError('');
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);

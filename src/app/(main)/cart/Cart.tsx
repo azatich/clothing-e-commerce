@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { CartProduct, Hoodie } from "@/types/products";
 import Link from "next/link";
-import { Result, Button } from "antd";
+import { Result } from "antd";
 import CartSkeleton from "@/app/components/CartSkeleton";
 import { toast } from "react-toastify";
 import CartOrderSummary from "@/app/components/CartOrderSummary";
@@ -56,7 +56,7 @@ const CartPage = () => {
       setLoading(false);
     };
     fetchHoodies();
-  }, []);
+  }, [supabase]);
 
   // Fetch cart
   useEffect(() => {

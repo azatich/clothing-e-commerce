@@ -21,8 +21,9 @@ export const handleDecrement = (
   setSelectedQuantities((prev) => {
     const newQty = (prev[hoodie.id] || 1) - 1;
     if (newQty < 1) {
-      const { [hoodie.id]: _, ...rest } = prev;
-      return rest;
+      const updated = { ...prev };
+      delete updated[hoodie.id];
+      return updated;
     }
     return { ...prev, [hoodie.id]: newQty };
   });

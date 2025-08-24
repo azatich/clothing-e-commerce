@@ -50,7 +50,7 @@ const Navbar = () => {
       });
     };
     checkUser();
-  }, []);
+  }, [setUsername, supabase]);
 
   // Close menu when route changes
   useEffect(() => {

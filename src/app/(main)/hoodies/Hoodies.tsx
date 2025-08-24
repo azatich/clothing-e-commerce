@@ -30,7 +30,7 @@ const HoodiesPage = () => {
       setLoading(false);
     };
     fetchHoodies();
-  }, []);
+  }, [supabase]);
 
   const filteredHoodies = hoodies.filter(
     (hoodie) =>

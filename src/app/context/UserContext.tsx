@@ -42,7 +42,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase]);
 
   return (
     <UserContext.Provider value={{ username, setUsername }}>
