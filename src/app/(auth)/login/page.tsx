@@ -21,10 +21,9 @@ export default function LoginPage() {
     const data = await login(formData);
 
     if (data.success) {
-      console.log(data);
       router.push("/");
     } else {
-      setError(data.error);
+      setError(data.error || 'Login failed');
     }
 
     setLoading(false);
