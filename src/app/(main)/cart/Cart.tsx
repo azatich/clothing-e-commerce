@@ -75,7 +75,7 @@ const CartPage = () => {
       setLoading(false);
     };
     fetchCart();
-  }, []);
+  }, [supabase]);
 
   // Update quantity in cart (both state + supabase)
   const updateQuantity = async (item: CartProduct, newQty: number) => {
