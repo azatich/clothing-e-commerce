@@ -12,12 +12,21 @@ import React, { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/clients";
 import { signOut } from "../(auth)/actions";
 import { FiMenu, FiX } from "react-icons/fi";
+import { IoPersonOutline } from "react-icons/io5";
 
 const links = [
   { href: "/", label: "Home", icon: <AiFillHome className="text-xl" /> },
-  { href: "/hoodies", label: "Products", icon: <FaTshirt className="text-xl" /> },
+  {
+    href: "/hoodies",
+    label: "Products",
+    icon: <FaTshirt className="text-xl" />,
+  },
   { href: "/story", label: "Story", icon: <GiBookCover className="text-xl" /> },
-  { href: "/manufacturing", label: "Manufacturing", icon: <GiClothes className="text-xl" /> },
+  {
+    href: "/manufacturing",
+    label: "Manufacturing",
+    icon: <GiClothes className="text-xl" />,
+  },
 ];
 
 const Navbar = () => {
@@ -77,7 +86,9 @@ const Navbar = () => {
             key={link.href}
             href={link.href}
             className={`${
-              pathname === link.href ? "font-semibold text-black" : "text-gray-600"
+              pathname === link.href
+                ? "font-semibold text-black"
+                : "text-gray-600"
             } hover:text-black transition`}
           >
             {link.label}
@@ -97,7 +108,13 @@ const Navbar = () => {
             >
               <FaShoppingCart />
             </Link>
-            <p className="uppercase font-semibold">{username}</p>
+            <Link
+              href="/profile"
+              className="hover:bg-white hover:text-black bg-black border text-white px-3 py-2 rounded-xl transition flex items-center gap-2"
+            >
+              <IoPersonOutline />
+              <p className="uppercase font-semibold">{username}</p>
+            </Link>
             <button
               onClick={handleLogOut}
               className="hover:bg-black hover:text-white px-3 py-2 rounded-xl transition"
@@ -126,41 +143,42 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {menuOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setMenuOpen(false)}
         />
       )}
 
       {/* Mobile Menu */}
-      <div className={`
+      <div
+        className={`
         fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden
-        ${menuOpen ? 'translate-x-0' : 'translate-x-full'}
-      `}>
+        ${menuOpen ? "translate-x-0" : "translate-x-full"}
+      `}
+      >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-end mb-8">
-            <button
-              onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
-            >
+            <button onClick={() => setMenuOpen(false)} aria-label="Close menu">
               <FiX size={28} />
             </button>
           </div>
-          
+
           <div className="flex flex-col gap-6 flex-grow">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`flex items-center gap-3 text-lg ${
-                  pathname === link.href ? "font-semibold text-black" : "text-gray-600"
+                  pathname === link.href
+                    ? "font-semibold text-black"
+                    : "text-gray-600"
                 } hover:text-black transition`}
               >
                 {link.icon}
                 {link.label}
               </Link>
             ))}
-            
+
             <div className="mt-auto pb-8">
               {isLoadingUsername ? (
                 <p>Loading...</p>
@@ -173,7 +191,9 @@ const Navbar = () => {
                     </Link>
                   </div>
                   <div className="mb-4">
-                    <p className="uppercase font-semibold text-gray-600">Logged in as:</p>
+                    <p className="uppercase font-semibold text-gray-600">
+                      Logged in as:
+                    </p>
                     <p className="uppercase font-semibold">{username}</p>
                   </div>
                   <button

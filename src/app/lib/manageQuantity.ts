@@ -1,30 +1,30 @@
-import { Hoodie } from "../../types/products";
+import { Product } from "../../types/products";
 
 export const handleIncrement = (
-  hoodie: Hoodie,
+  product: Product,
   setSelectedQuantities: React.Dispatch<
     React.SetStateAction<Record<number, number>>
   >
 ) => {
   setSelectedQuantities((prev) => ({
     ...prev,
-    [hoodie.id]: Math.min((prev[hoodie.id] || 1) + 1, hoodie.quantity),
+    [product.id]: Math.min((prev[product.id] || 1) + 1, product.quantity),
   }));
 };
 
 export const handleDecrement = (
-  hoodie: Hoodie,
+  product: Product,
   setSelectedQuantities: React.Dispatch<
     React.SetStateAction<Record<number, number>>
   >
 ) => {
   setSelectedQuantities((prev) => {
-    const newQty = (prev[hoodie.id] || 1) - 1;
+    const newQty = (prev[product.id] || 1) - 1;
     if (newQty < 1) {
       const updated = { ...prev };
-      delete updated[hoodie.id];
+      delete updated[product.id];
       return updated;
     }
-    return { ...prev, [hoodie.id]: newQty };
+    return { ...prev, [product.id]: newQty };
   });
 };

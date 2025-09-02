@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Sidebar from "@/app/components/Sidebar";
 import Skeleton from "@/app/components/Skeleton";
 import { Hoodie } from "@/types/products";
 import { Input, Select } from "antd";
 import HoodiesItem from "@/app/components/HoodiesItem";
 import { createClient } from "@/utils/supabase/clients";
+import { DesktopSidebar } from "@/app/components/DesktopSidebar";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -51,9 +51,12 @@ const HoodiesPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <div className="flex flex-1">
+        {/* Desktop Sidebar - Only show on desktop */}
         <div className="hidden md:block sticky top-0 h-screen w-64 bg-white border-r">
-          <Sidebar />
+          <DesktopSidebar />
         </div>
+        
+        {/* Main Content */}
         <main className="flex-1 py-10 px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
             <Search

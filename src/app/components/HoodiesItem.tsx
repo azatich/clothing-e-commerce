@@ -8,7 +8,7 @@ import { handleDecrement, handleIncrement } from "@/app/lib/manageQuantity";
 
 import React, { useState } from "react";
 import { Hoodie } from "@/types/products";
-import { addToCart } from "../lib/add-to-cart";
+import { addToCartHoodie } from "../lib/add-to-cart";
 import { toast } from "react-toastify";
 
 const HoodiesItem = ({
@@ -24,7 +24,7 @@ const HoodiesItem = ({
   const selectedQty = selectedQuantities[hoodie.id] || 1;
 
   const handleAddToCart = async () => {
-    const result = await addToCart(hoodie, selectedQty);
+    const result = await addToCartHoodie(hoodie.id, selectedQty);
     if (result.success) {
       toast.success("Hoodie added to cart!");
     } else {
@@ -75,24 +75,24 @@ const HoodiesItem = ({
         <div className="flex flex-col gap-2">
           <div>
             <button
-            className="bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300"
-            onClick={() => handleDecrement(hoodie, setSelectedQuantities)}
-            disabled={selectedQty <= 1}
-          >
-            <MinusOutlined />
-          </button>
-          <span className="font-semibold text-black px-2">{selectedQty}</span>
-          <button
-            className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${
-              selectedQty >= hoodie.quantity
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            }`}
-            onClick={() => handleIncrement(hoodie, setSelectedQuantities)}
-            disabled={selectedQty >= hoodie.quantity}
-          >
-            <PlusOutlined />
-          </button>
+              className="bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300"
+              onClick={() => handleDecrement(hoodie, setSelectedQuantities)}
+              disabled={selectedQty <= 1}
+            >
+              <MinusOutlined />
+            </button>
+            <span className="font-semibold text-black px-2">{selectedQty}</span>
+            <button
+              className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${
+                selectedQty >= hoodie.quantity
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              onClick={() => handleIncrement(hoodie, setSelectedQuantities)}
+              disabled={selectedQty >= hoodie.quantity}
+            >
+              <PlusOutlined />
+            </button>
           </div>
           <button
             className="bg-black text-white border px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-white hover:text-black transition-colors duration-300"

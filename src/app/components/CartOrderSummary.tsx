@@ -1,5 +1,17 @@
 import React from "react";
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutPage from "./CheckoutPage";
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
+  throw new Error("Next public stripe public key is not defined");
+}
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
 const CartOrderSummary = ({
   totalPrice,
   youSave,
@@ -40,12 +52,9 @@ const CartOrderSummary = ({
         <span>{totalPrice + 1000}₸</span>
       </div>
 
-      {/* Checkout Button */}
-      <div className="p-6">
-        <button className="w-full bg-black text-white border py-3 rounded-lg uppercase font-semibold hover:bg-white hover:text-black transition duration-300">
-          Check Out
-        </button>
-      </div>
+      <Elements stripe={stripePromise} options={{mode: "payment", amount: totalPrice, currency: "kzt"}}>
+        <CheckoutPage amount={totalPrice} />
+      </Elements>
     </div>
   );
 };

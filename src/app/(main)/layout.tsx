@@ -1,4 +1,5 @@
 import Navbar from "@/app/components/Navbar";
+import { MobileTabBar } from "../components/DesktopSidebar";
 
 export default function RootLayout({
   children,
@@ -9,7 +10,10 @@ export default function RootLayout({
     <>
       <div className="flex-1">
         <Navbar />
-        {children}
+        <div className="md:pb-0">
+          {children}
+        </div>
+        <MobileTabBar />
       </div>
     </>
   );

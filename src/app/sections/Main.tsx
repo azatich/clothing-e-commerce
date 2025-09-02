@@ -3,10 +3,9 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Video from 'next-video';
-import getStarted from '/videos/main.mp4';
+import Video from "next-video";
+import getStarted from "/videos/main.mp4";
 import Link from "next/link";
-
 
 const HomePage = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -90,10 +89,9 @@ const HomePage = () => {
         {/* Background Video */}
         <Video
           src={getStarted}
-          className="w-full h-full object-cover"
-          // Add these props for better control
+          className="absolute inset-0 "
           muted
-          loop
+          loop  
           autoPlay
           playsInline
         />
@@ -105,8 +103,8 @@ const HomePage = () => {
             className="font-in text-center text-white text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extralight mb-8 drop-shadow-2xl"
           >
             Welcome to <br />
-            <span 
-              ref={wordRef} 
+            <span
+              ref={wordRef}
               className="relative inline-block min-w-[200px] sm:min-w-[250px] md:min-w-[300px]"
             >
               <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
@@ -120,8 +118,11 @@ const HomePage = () => {
               />
             </span>
           </h1>
-          
-          <Link href='/hoodies' className="px-6 py-3 border-2 border-white text-white bg-transparent font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 shadow-lg backdrop-blur-sm">
+
+          <Link
+            href="/hoodies"
+            className="px-6 py-3 border-2 border-white text-white bg-transparent font-semibold rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 shadow-lg backdrop-blur-sm"
+          >
             Explore Collection
           </Link>
         </div>

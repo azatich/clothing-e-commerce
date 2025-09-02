@@ -141,7 +141,7 @@ export default function SignupPage() {
                   onClick={() => router.push("/login")}
                   className="text-black font-semibold cursor-pointer hover:text-gray-500 transition duration-300"
                 >
-                  Sign up
+                  Sign in
                 </span>
               </p>
             </div>
