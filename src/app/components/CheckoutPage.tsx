@@ -38,9 +38,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
 
     if (error) {
       setErrorMessage(error.message);
-    } else {
     }
-
     setLoading(false);
   }
 
@@ -58,14 +56,12 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
 
   if (!clientSecret || !stripe || !elements) {
     return (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center py-3">
         <div
           role="status"
-          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          className="h-12 w-12 animate-spin rounded-full border-4 border-t-transparent"
         >
-          <span className="!absolute !-m-px !-h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
+          <span className="sr-only"></span>
         </div>
       </div>
     );
@@ -78,8 +74,11 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
         disabled={!stripe || loading}
         className="mt-4 w-full bg-black text-white border py-3 rounded-lg uppercase font-semibold hover:bg-white hover:text-black transition duration-300"
       >
-        {!loading ? `Pay ${amount}₸` : "Processing"}
+        {loading ? "Processing..." : `Pay ${amount}₸`}
       </button>
+      {errorMessage && (
+        <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+      )}
     </form>
   );
 };

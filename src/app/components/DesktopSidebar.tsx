@@ -71,7 +71,6 @@ export const MobileTabBar = () => {
 
 // Main Sidebar Component (for backward compatibility)
 const Sidebar = () => {
-  const pathname = usePathname();
 
   return (
     <>

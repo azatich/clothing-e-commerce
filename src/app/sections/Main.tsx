@@ -10,13 +10,13 @@ import Link from "next/link";
 const HomePage = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const wordRef = useRef<HTMLSpanElement>(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
   const words = ["Future", "Home", "A New Era"];
 
+  // Scroll animation
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -24,12 +24,12 @@ const HomePage = () => {
       gsap.to(titleRef.current, {
         x: -500,
         opacity: 0,
-        ease: "none",
+        ease: "power2.out",
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: 1.5,
+          scrub: 1.2,
         },
       });
     }, heroRef);
@@ -37,51 +37,47 @@ const HomePage = () => {
     return () => ctx.revert();
   }, []);
 
-  // Typed animation effect
+  // Typing effect
   useEffect(() => {
+    let isMounted = true;
     const currentWord = words[currentWordIndex];
 
     const typeWord = async () => {
+      if (!isMounted) return;
       setIsTyping(true);
 
       // Type forward
       for (let i = 0; i <= currentWord.length; i++) {
+        if (!isMounted) return;
         setDisplayedText(currentWord.slice(0, i));
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Typing speed
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
 
-      // Pause at full word
+      // Pause
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Type backward (erase)
+      // Erase
       for (let i = currentWord.length; i >= 0; i--) {
+        if (!isMounted) return;
         setDisplayedText(currentWord.slice(0, i));
-        await new Promise((resolve) => setTimeout(resolve, 50)); // Erasing speed (faster)
+        await new Promise((resolve) => setTimeout(resolve, 50));
       }
 
       // Pause before next word
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      setIsTyping(false);
-      setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      if (isMounted) {
+        setIsTyping(false);
+        setCurrentWordIndex((prev) => (prev + 1) % words.length);
+      }
     };
 
-    const timer = setTimeout(() => {
-      typeWord();
-    }, 500);
+    typeWord();
 
-    return () => clearTimeout(timer);
-  }, [currentWordIndex]);
-
-  // Start initial animation
-  useEffect(() => {
-    setDisplayedText("Future");
-    const timer = setTimeout(() => {
-      setCurrentWordIndex(0);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [currentWordIndex, words]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -89,9 +85,9 @@ const HomePage = () => {
         {/* Background Video */}
         <Video
           src={getStarted}
-          className="absolute inset-0 "
+          className="absolute inset-0"
           muted
-          loop  
+          loop
           autoPlay
           playsInline
         />
@@ -103,18 +99,14 @@ const HomePage = () => {
             className="font-in text-center text-white text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extralight mb-8 drop-shadow-2xl"
           >
             Welcome to <br />
-            <span
-              ref={wordRef}
-              className="relative inline-block min-w-[200px] sm:min-w-[250px] md:min-w-[300px]"
-            >
+            <span className="relative inline-block min-w-[200px] sm:min-w-[250px] md:min-w-[300px]">
               <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                 {displayedText}
               </span>
               <span
-                className={`inline-block w-[1px] h-[0.5em] bg-white ml-2 ${
-                  isTyping ? "animate-pulse" : "animate-ping"
+                className={`inline-block w-[2px] h-[1em] bg-white ml-2 ${
+                  isTyping ? "animate-blink" : ""
                 }`}
-                style={{ animation: "blink 1s infinite" }}
               />
             </span>
           </h1>
@@ -127,6 +119,17 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
+
+      {/* Cursor animation */}
+      <style jsx>{`
+        @keyframes blink {
+          0%, 50%, 100% { opacity: 1; }
+          25%, 75% { opacity: 0; }
+        }
+        .animate-blink {
+          animation: blink 1s step-start infinite;
+        }
+      `}</style>
     </div>
   );
 };
