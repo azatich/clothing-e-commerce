@@ -1,21 +1,18 @@
-"use client";
+// app/payment-success/page.tsx
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function PaymentSuccess({
   searchParams,
 }: {
   searchParams?: { amount?: string | string[] };
 }) {
-  const router = useRouter();
-
   const amount =
     typeof searchParams?.amount === "string"
       ? searchParams.amount
       : Array.isArray(searchParams?.amount)
       ? searchParams.amount[0]
       : "0";
-
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
@@ -33,12 +30,12 @@ export default function PaymentSuccess({
           {amount}₸
         </div>
 
-        <button
-          onClick={() => router.push("/")}
-          className="bg-white mt-3 text-black px-4 py-2 rounded-xl hover:bg-gray-900 hover:text-white transition duration-300"
+        <Link
+          href="/"
+          className="inline-block bg-white mt-3 text-black px-4 py-2 rounded-xl hover:bg-gray-900 hover:text-white transition duration-300"
         >
           Go to Products
-        </button>
+        </Link>
       </div>
     </main>
   );
