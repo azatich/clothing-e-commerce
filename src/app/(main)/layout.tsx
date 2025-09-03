@@ -9,10 +9,8 @@ export default function RootLayout({
   return (
     <>
       <div className="flex-1">
-        <Navbar />
-        <div className="md:pb-0">
-          {children}
-        </div>
+        <Navbar />  
+        <div className="md:pb-0">{children}</div>
         <MobileTabBar />
       </div>
     </>

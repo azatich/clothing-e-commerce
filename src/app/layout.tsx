@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import "../styles/nprogress.css";
-import { Poppins } from "next/font/google"; // ✅ new file for client providers
+import { Poppins } from "next/font/google";
 import Providers from "./providers";
 
 export const metadata = {

@@ -9,6 +9,7 @@ import { CiPhone } from "react-icons/ci";
 import { CiCircleCheck } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function SignupPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -103,22 +105,23 @@ export default function SignupPage() {
               required
             />
           </div>
-          <div className="relative w-full">
+          <div className="relative flex items-center w-full border-b">
             <CiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full py-2 pl-10 pr-3 border-b outline-none"
+              className="w-full py-2 pl-10 pr-3 outline-none"
               required
             />
+            <button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <MdVisibilityOff /> : <MdVisibility />}</button>
           </div>
           <div className="relative w-full">
             <CiCircleCheck className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl" />
             <input
-              type="text"
+              type='text'
               name="confirmPassword"
               placeholder="Confirm Password"
               value={formData.confirmPassword}

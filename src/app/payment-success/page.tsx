@@ -1,8 +1,13 @@
+'use client'
+
+import { useRouter } from "next/navigation";
+
 export default function PaymentSuccess({
   searchParams: { amount },
 }: {
   searchParams: { amount: string };
 }) {
+  const router = useRouter();
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
       <div className="max-w-lg w-full text-center rounded-2xl shadow-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-10 animate-fadeIn">
@@ -19,9 +24,7 @@ export default function PaymentSuccess({
           {amount}₸
         </div>
 
-        <p className="mt-8 text-sm text-gray-400">
-          You’ll be redirected soon, or head back to the homepage.
-        </p>
+        <button onClick={() => router.back()} className="bg-white mt-3 text-black px-4 py-2 rounded-xl hover:bg-gray-900 hover:text-white transition duration-300">Go to Products</button>
       </div>
     </main>
   );

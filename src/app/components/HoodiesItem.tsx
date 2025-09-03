@@ -11,13 +11,7 @@ import { Hoodie } from "@/types/products";
 import { addToCartHoodie } from "../lib/add-to-cart";
 import { toast } from "react-toastify";
 
-const HoodiesItem = ({
-  hoodie,
-  discountedPrice,
-}: {
-  hoodie: Hoodie;
-  discountedPrice: number;
-}) => {
+const HoodiesItem = ({ hoodie }: { hoodie: Hoodie }) => {
   const [selectedQuantities, setSelectedQuantities] = useState<
     Record<number, number>
   >({});
@@ -31,19 +25,22 @@ const HoodiesItem = ({
       toast.error(result.error);
     }
   };
+  const discountedPrice = Math.round(
+    hoodie.price * (1 - hoodie.discount_percent / 100)
+  );
 
   return (
     <div
       key={hoodie.id}
       className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col"
     >
-      <div className="bg-gray-200 flex justify-center items-center h-64">
+      <div className="flex justify-center items-center h-64 w-full border-b">
         <Image
           src={hoodie.image_url}
           alt={hoodie.color + " hoodie"}
-          width={150}
+          width={200}
           height={200}
-          className="object-contain"
+          className="object-contain h-full w-auto"
         />
       </div>
       <div className="p-6 flex-1 flex flex-col">

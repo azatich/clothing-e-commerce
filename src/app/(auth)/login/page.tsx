@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { login } from "../actions";
 import { CiMail } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 export default function LoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ export default function LoginPage() {
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="flex flex-col justify-center items-center gap-8 lg:max-w-md">
-            <div className="relative w-full">
+            <div className="relative w-full border-b">
               <CiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl" />
             <input
               type="email"
@@ -51,22 +53,25 @@ export default function LoginPage() {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full py-2 pl-10 pr-3  outline-none border-b"
+              className="w-full py-2 pl-10 pr-3 outline-none"
               required
             />
             </div>
-            <div className="relative w-full">
+
+            <div className="relative flex items-center border-b w-full">
               <CiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl font-light" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full py-2 pl-10 pr-3 outline-none border-b"
+              className="w-full py-2 pl-10 pr-3 outline-none"
               required
             />
+             <button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <MdVisibilityOff /> : <MdVisibility />}</button>
             </div>
+
             <button
               type="submit"
               disabled={loading}

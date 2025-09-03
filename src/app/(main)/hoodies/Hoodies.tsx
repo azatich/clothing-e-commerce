@@ -93,14 +93,10 @@ const HoodiesPage = () => {
             {loading
               ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)
               : sortedHoodies.map((hoodie) => {
-                  const discountedPrice = Math.round(
-                    hoodie.price * (1 - hoodie.discount_percent / 100)
-                  );
                   return (
                     <HoodiesItem
                       key={hoodie.id}
                       hoodie={hoodie}
-                      discountedPrice={discountedPrice}
                     />
                   );
                 })}

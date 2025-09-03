@@ -35,13 +35,13 @@ const ShoesItem = ({ shoe }: { shoe: Shoe }) => {
       key={shoe.id}
       className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col"
     >
-      <div className="bg-gray-200 flex justify-center items-center h-64">
+      <div className="bg-gray-200 flex justify-center items-center h-64 w-full">
         <Image
           src={shoe.image_url}
           alt="shoe"
           width={250}
           height={400}
-          className="object-contain"
+          className="object-contain h-full w-auto"
         />
       </div>
       <div className="px-6 py-4 flex-1 flex flex-col justify-between gap-6">

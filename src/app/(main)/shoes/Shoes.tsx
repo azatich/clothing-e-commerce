@@ -1,11 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Input, Select, Spin } from "antd";
-import { GiConverseShoe } from "react-icons/gi";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Input, Select } from "antd";
 import { DesktopSidebar } from "@/app/components/DesktopSidebar";
 import { Shoe } from "@/types/products";
 import { createClient } from "@/utils/supabase/clients";
@@ -16,11 +12,11 @@ const { Search } = Input;
 const { Option } = Select;
 
 const Shoes = () => {
-  const [shoes, setShoes] = useState<Shoe[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchBySize, setSearchBySize] = useState("");
   const [sortBy, setSortBy] = useState<string>("");
+  const [shoes, setShoes] = useState<Shoe[]>([]);
 
   const supabase = createClient();
 
@@ -28,15 +24,29 @@ const Shoes = () => {
     const fetchShoes = async () => {
       setLoading(true);
       const { data, error } = await supabase.from("shoes").select("*");
-      console.log(data);
-      
       if (!error && data) {
         setShoes(data);
       }
       setLoading(false);
     };
     fetchShoes();
-  }, [supabase])
+  }, [supabase]);
+
+  const filteredShoes = shoes.filter(
+    (shoe) =>
+      shoe.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (!searchBySize || shoe.size.toString() === searchBySize)
+  );
+
+  const sortedShoes = [...filteredShoes].sort((a, b) => {
+    const firstItemPrice = a.price - a.price * (a.discount_percent / 100);
+    const secondItemPrice = b.price - b.price * (b.discount_percent / 100);
+    if (sortBy === "price-asc") return firstItemPrice - secondItemPrice;
+    if (sortBy === "price-desc") return secondItemPrice - firstItemPrice;
+    if (sortBy === "quantity-asc") return a.quantity - b.quantity;
+    if (sortBy === "quantity-desc") return b.quantity - a.quantity;
+    return 0;
+  });
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -78,17 +88,11 @@ const Shoes = () => {
             </Select>
           </div>
 
-          {/* Products Grid */}
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {loading
               ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)
-              : shoes.map((shoe) => {
-                  return (
-                    <ShoesItem
-                      key={shoe.id}
-                      shoe={shoe}
-                    />
-                  );
+              : sortedShoes.map((shoe) => {
+                  return <ShoesItem key={shoe.id} shoe={shoe} />;
                 })}
           </div>
         </main>

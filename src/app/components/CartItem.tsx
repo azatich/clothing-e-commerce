@@ -14,8 +14,6 @@ const CartItem = ({
   setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>;
 }) => {
   const discountedPrice = item.discount_percent ? Math.round(item.price * (1 - item.discount_percent / 100)) : item.price;
-  console.log(item);
-  
   
   return (
     <div

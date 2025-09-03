@@ -5,10 +5,7 @@ import { redirect } from "next/navigation";
 
 export async function addToCartHoodie(hoodieID: number, quantity: number) {
   const supabase = await createClient();
-
-  console.log("user selected hoodie with id", hoodieID);
   
-
   const {
     data: { user },
     error: userError,
