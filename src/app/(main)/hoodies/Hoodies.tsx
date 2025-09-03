@@ -5,8 +5,8 @@ import Skeleton from "@/app/components/Skeleton";
 import { Hoodie } from "@/types/products";
 import { Input, Select } from "antd";
 import HoodiesItem from "@/app/components/HoodiesItem";
-import { createClient } from "@/utils/supabase/clients";
 import { DesktopSidebar } from "@/app/components/DesktopSidebar";
+import { createClient } from "@/utils/supabase/clients";
 
 const { Search } = Input;
 const { Option } = Select;
