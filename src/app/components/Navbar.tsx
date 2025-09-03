@@ -9,10 +9,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/clients";
 import { signOut } from "../(auth)/actions";
 import { FiMenu, FiX } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
+import { supabase } from "@/utils/supabase/clients";
 
 const links = [
   { href: "/", label: "Home", icon: <AiFillHome className="text-xl" /> },
@@ -34,7 +34,6 @@ const Navbar = () => {
   const pathname = usePathname();
   const [isLoadingUsername, setIsLoadingUsername] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const supabase = createClient();
   const router = useRouter();
 
   const handleLogOut = async () => {
@@ -59,7 +58,7 @@ const Navbar = () => {
       });
     };
     checkUser();
-  }, [setUsername, supabase]);
+  }, [setUsername]);
 
   // Close menu when route changes
   useEffect(() => {

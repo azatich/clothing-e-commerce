@@ -9,11 +9,9 @@ import CartOrderSummary from "@/app/components/CartOrderSummary";
 import Sidebar from "@/app/components/Sidebar";
 import CartItem from "@/app/components/CartItem";
 import SidebarSkeleton from "@/app/components/SidebarSkeleton";
-import { createClient } from "@/utils/supabase/clients";
+import { supabase } from "@/utils/supabase/clients";
 
 const CartPage = () => {
-  const supabase = createClient();
-
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +43,7 @@ const CartPage = () => {
       setLoading(false);
     };
     fetchCart();
-  }, [supabase]);
+  }, []);
 
   if (loading) {
     return (

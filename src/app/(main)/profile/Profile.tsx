@@ -1,12 +1,12 @@
 "use client";
 
 import { updateProfile } from "@/app/lib/update-user-profile";
-import { createClient } from "@/utils/supabase/clients";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaUser, FaEnvelope, FaPhone, FaLock } from "react-icons/fa";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { toast } from "react-toastify";
+import { supabase } from "@/utils/supabase/clients";
 
 export default function ProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,10 +19,6 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [userID, setUserID] = useState<string | null>(null);
-
-  console.log(formData);
-
-  const supabase = createClient();
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -53,7 +49,7 @@ export default function ProfilePage() {
         }
       }
     });
-  }, [supabase]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

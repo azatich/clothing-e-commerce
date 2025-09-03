@@ -6,7 +6,7 @@ import { Hoodie } from "@/types/products";
 import { Input, Select } from "antd";
 import HoodiesItem from "@/app/components/HoodiesItem";
 import { DesktopSidebar } from "@/app/components/DesktopSidebar";
-import { createClient } from "@/utils/supabase/clients";
+import { supabase } from "@/utils/supabase/clients";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -18,8 +18,6 @@ const HoodiesPage = () => {
   const [searchBySize, setSearchBySize] = useState("");
   const [sortBy, setSortBy] = useState<string>("");
 
-  const supabase = createClient();
-
   useEffect(() => {
     const fetchHoodies = async () => {
       setLoading(true);
@@ -30,7 +28,7 @@ const HoodiesPage = () => {
       setLoading(false);
     };
     fetchHoodies();
-  }, [supabase]);
+  }, []);
 
   const filteredHoodies = hoodies.filter(
     (hoodie) =>
