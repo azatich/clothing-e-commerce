@@ -43,16 +43,22 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   }
 
   useEffect(() => {
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount }),
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/create-payment-intent`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("API request failed");
+      return res.json();
     })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
+    .then((data) => setClientSecret(data.clientSecret))
+    .catch((err) => {
+      console.error("PaymentIntent fetch error:", err);
+      setErrorMessage("Failed to connect to server.");
+    });
+}, [amount]);
+
 
   if (!clientSecret || !stripe || !elements) {
     return (
