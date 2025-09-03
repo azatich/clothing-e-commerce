@@ -38,7 +38,6 @@ export async function login(formData: FormData) {
       username: authData.user?.user_metadata.username || "",
       phone: authData.user?.user_metadata.phone || "",
       avatar: authData.user?.user_metadata.avatar || "",
-      full_name: authData.user?.user_metadata.full_name || "",
     });
 
     if (insertError) {
