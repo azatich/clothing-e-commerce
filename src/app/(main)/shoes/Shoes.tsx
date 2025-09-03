@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Input, Select } from "antd";
 import { DesktopSidebar } from "@/app/components/DesktopSidebar";
 import { Shoe } from "@/types/products";
-import { createClient } from "@/utils/supabase/clients";
 import Skeleton from "@/app/components/Skeleton";
 import ShoesItem from "@/app/components/ShoesItem";
+import { supabase } from "@/utils/supabase/clients";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -18,7 +18,6 @@ const Shoes = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [shoes, setShoes] = useState<Shoe[]>([]);
 
-  const supabase = createClient();
 
   useEffect(() => {
     const fetchShoes = async () => {
@@ -30,7 +29,7 @@ const Shoes = () => {
       setLoading(false);
     };
     fetchShoes();
-  }, [supabase]);
+  }, []);
 
   const filteredShoes = shoes.filter(
     (shoe) =>
