@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Video from "next-video";
@@ -14,7 +14,7 @@ const HomePage = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
-  const words = ["Future", "Home", "A New Era"];
+  const words = useMemo(() => ["Future", "Home", "A New Era"], []);
 
   // Scroll animation
   useEffect(() => {

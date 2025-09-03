@@ -1,11 +1,13 @@
-'use client'
+"use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function PaymentSuccess() {
+export default function PaymentSuccess({
+  searchParams,
+}: {
+  searchParams: { amount?: string };
+}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const amount = searchParams.get("amount") ?? "0";
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
@@ -20,11 +22,11 @@ export default function PaymentSuccess() {
         </div>
 
         <div className="bg-gradient-to-r from-gray-100 to-white text-black py-4 rounded-xl shadow-inner text-4xl font-bold tracking-wider">
-          {amount}₸
+          {searchParams.amount ?? 0}₸
         </div>
 
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push("/")}
           className="bg-white mt-3 text-black px-4 py-2 rounded-xl hover:bg-gray-900 hover:text-white transition duration-300"
         >
           Go to Products
