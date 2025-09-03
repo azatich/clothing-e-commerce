@@ -5,9 +5,17 @@ import { useRouter } from "next/navigation";
 export default function PaymentSuccess({
   searchParams,
 }: {
-  searchParams: { amount?: string };
+  searchParams?: { amount?: string | string[] };
 }) {
   const router = useRouter();
+
+  const amount =
+    typeof searchParams?.amount === "string"
+      ? searchParams.amount
+      : Array.isArray(searchParams?.amount)
+      ? searchParams.amount[0]
+      : "0";
+
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
@@ -22,7 +30,7 @@ export default function PaymentSuccess({
         </div>
 
         <div className="bg-gradient-to-r from-gray-100 to-white text-black py-4 rounded-xl shadow-inner text-4xl font-bold tracking-wider">
-          {searchParams.amount ?? 0}₸
+          {amount}₸
         </div>
 
         <button
