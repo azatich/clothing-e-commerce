@@ -1,9 +1,8 @@
 import { CartProduct } from "@/types/products";
-import { createClient } from "@/utils/supabase/clients";
+import { supabase } from "@/utils/supabase/clients";
 import { toast } from "react-toastify";
 
 export const handleDeleteItemCart = async (itemId: number, productName: string, setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>) => {
-  const supabase = createClient();
 
   const { error } = await supabase.from("cart").delete().eq("id", itemId);
 

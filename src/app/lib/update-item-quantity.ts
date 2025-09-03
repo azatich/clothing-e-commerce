@@ -1,5 +1,5 @@
 import { CartProduct } from "@/types/products";
-import { createClient } from "@/utils/supabase/clients";
+import { supabase } from "@/utils/supabase/clients";
 import { toast } from "react-toastify";
 
 export const updateQuantity = async (
@@ -8,7 +8,6 @@ export const updateQuantity = async (
     newQty: number,
     setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>
   ) => {
-    const supabase = createClient();
 
     const { error } = await supabase
       .from("cart")
