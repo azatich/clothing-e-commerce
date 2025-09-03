@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 
-export default function PaymentSuccess({
+export default async function PaymentSuccess({
   searchParams,
 }: {
-  searchParams?: { amount?: string | string[] };
+  searchParams?: Promise<{ amount?: string | string[] }>;
 }) {
+  const resolvedSearchParams = await searchParams;
   const amount =
-    typeof searchParams?.amount === "string"
-      ? searchParams.amount
-      : Array.isArray(searchParams?.amount)
-      ? searchParams.amount[0]
+    typeof resolvedSearchParams?.amount === "string"
+      ? resolvedSearchParams.amount
+      : Array.isArray(resolvedSearchParams?.amount)
+      ? resolvedSearchParams.amount[0]
       : "0";
 
   return (
