@@ -3,6 +3,7 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutPage from "./CheckoutPage";
+import convertToSubcurrency from "../lib/convertToSubcurrency";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
   throw new Error("Next public stripe public key is not defined");
@@ -52,8 +53,15 @@ const CartOrderSummary = ({
         <span>{totalPrice + 1000}₸</span>
       </div>
 
-      <Elements stripe={stripePromise} options={{mode: "payment", amount: totalPrice, currency: "kzt"}}>
-        <CheckoutPage amount={totalPrice} />
+      <Elements
+        stripe={stripePromise}
+        options={{
+          mode: "payment",
+          amount: convertToSubcurrency(totalPrice),
+          currency: "kzt",
+        }}
+      >
+        <CheckoutPage amount={totalPrice + 1000} />
       </Elements>
     </div>
   );

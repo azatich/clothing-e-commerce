@@ -6,6 +6,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
+import convertToSubcurrency from "../lib/convertToSubcurrency";
 
 const CheckoutPage = ({ amount }: { amount: number }) => {
   const stripe = useStripe();
@@ -13,6 +14,8 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  console.log(amount);
+  
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +51,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));

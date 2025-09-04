@@ -26,7 +26,7 @@ export type Shoe = {
 };
 
 export type CartProduct = {
-  id: number;
+  id: string;
   product_name: string;
   product_id: number;
   color: string[];

@@ -1,23 +1,15 @@
-import { CartProduct } from "@/types/products";
-import { supabase } from "@/utils/supabase/clients";
-import { toast } from "react-toastify";
+"use server";
 
-export const handleDeleteItemCart = async (itemId: number, productName: string, setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>) => {
+import { createClient } from "@/utils/supabase/server";
+
+export const deleteCartItem = async (itemId: string) => {
+  const supabase = await createClient();
 
   const { error } = await supabase.from("cart").delete().eq("id", itemId);
+  console.log("deleted item id: ", itemId);
 
   if (error) {
-    console.log(error);
-    toast.error("Failed to delete item ❌", {
-      position: "top-center",
-      autoClose: 2300,
-    });
-  } else {
-    toast.success("Deleted successfully", {
-      position: "top-center",
-      autoClose: 2300,
-    });
+    return { success: false, message: error.message };
   }
-
-  setCartProducts((prev) => prev.filter((item) => item.id !== itemId && item.product_name !== productName));
+  return { success: true };
 };

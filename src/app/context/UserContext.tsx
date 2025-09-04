@@ -31,14 +31,12 @@ export function UserProvider({
     initialSession?.user?.user_metadata?.username || ""
   );
   const [loading, setLoading] = useState(false);
-
+  console.log(username);
+  
   useEffect(() => {
-    // The `onAuthStateChange` listener is now the only source of truth
-    // for state changes after the initial server-side render.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // Ignore the initial session event to prevent overwriting the server state
       if (event === "INITIAL_SESSION") {
         return;
       }

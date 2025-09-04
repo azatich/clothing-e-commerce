@@ -1,40 +1,16 @@
-import { CartProduct } from "@/types/products";
-import { supabase } from "@/utils/supabase/clients";
-import { toast } from "react-toastify";
+"use server";
 
-export const updateQuantity = async (
-    productName: string,
-    id: number,
-    newQty: number,
-    setCartProducts: React.Dispatch<React.SetStateAction<CartProduct[]>>
-  ) => {
+import { createClient } from "@/utils/supabase/server";
 
-    const { error } = await supabase
-      .from("cart")
-      .update({ quantity: newQty })
-      .eq("id", id)
-      .eq("product_name", productName);
+export const updateQuantity = async (itemId: string, newQuantity: number) => {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("cart")
+    .update({ quantity: newQuantity })
+    .eq("id", itemId);
 
-
-    if (error) {
-      console.log(error);
-      toast.error("Failed to update quantity ❌", {
-        position: "top-center",
-        autoClose: 2300,
-      });
-    } else {
-      toast.success("Quantity updated successfully", {
-        position: "top-center",
-        autoClose: 2300,
-      });
-    }
-    setCartProducts((prev) => {
-      const updatedCart = prev.map((item) => {
-        if (item.id === id && item.product_name === productName) {
-          return { ...item, quantity: newQty };
-        }
-        return item;
-      });
-      return updatedCart;
-    });
-  };
+  if (error) {
+    return { success: false, message: error.message };
+  }
+  return { success: true };
+};
