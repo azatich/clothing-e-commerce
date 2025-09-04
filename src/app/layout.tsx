@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "../styles/nprogress.css";
 import { Poppins } from "next/font/google";
 import Providers from "./providers";
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata = {
   title: "Hoodie",
@@ -12,15 +13,18 @@ export const metadata = {
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Providers>{children}</Providers>
+        <Providers initialSession={session}>{children}</Providers>
       </body>
     </html>
   );

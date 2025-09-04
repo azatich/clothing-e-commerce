@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { signOut } from "../(auth)/actions";
 import { FiMenu, FiX } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
 import { supabase } from "@/utils/supabase/clients";
@@ -29,38 +28,22 @@ const links = [
   },
 ];
 
-const Navbar = () => {
-  const { username, setUsername } = useUser();
+export default function Navbar() {
+  const { user, username, loading } = useUser();
   const pathname = usePathname();
-  const [isLoadingUsername, setIsLoadingUsername] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleLogOut = async () => {
-    const { success, error } = await signOut();
+    const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error logging out:", error);
-    } else if (success) {
-      setUsername("");
+    } else {
       setMenuOpen(false);
       router.push("/");
     }
   };
 
-  useEffect(() => {
-    const checkUser = () => {
-      setIsLoadingUsername(true);
-      supabase.auth.getUser().then(({ data }) => {
-        if (data.user) {
-          setUsername(data.user.user_metadata.username);
-        }
-        setIsLoadingUsername(false);
-      });
-    };
-    checkUser();
-  }, [setUsername]);
-
-  // Close menu when route changes
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
@@ -97,9 +80,9 @@ const Navbar = () => {
 
       {/* Desktop User Section */}
       <div className="hidden lg:flex items-center gap-4">
-        {isLoadingUsername ? (
+        {loading ? (
           <p>Loading...</p>
-        ) : username ? (
+        ) : user ? (
           <>
             <Link
               href="/cart"
@@ -151,9 +134,9 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`
-        fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden
-        ${menuOpen ? "translate-x-0" : "translate-x-full"}
-      `}
+          fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden
+          ${menuOpen ? "translate-x-0" : "translate-x-full"}
+        `}
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-end mb-8">
@@ -179,9 +162,9 @@ const Navbar = () => {
             ))}
 
             <div className="mt-auto pb-8">
-              {isLoadingUsername ? (
+              {loading ? (
                 <p>Loading...</p>
-              ) : username ? (
+              ) : user ? (
                 <>
                   <div className="flex items-center gap-3 mb-4">
                     <FaShoppingCart className="text-xl" />
@@ -217,6 +200,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

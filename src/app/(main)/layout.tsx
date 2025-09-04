@@ -1,5 +1,5 @@
-import Navbar from "@/app/components/Navbar";
 import { MobileTabBar } from "../components/DesktopSidebar";
+import Navbar from "../components/Navbar";
 
 export default function RootLayout({
   children,
