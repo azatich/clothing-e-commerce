@@ -67,11 +67,10 @@ export default function Navbar() {
           <Link
             key={link.href}
             href={link.href}
-            className={`${
-              pathname === link.href
+            className={`${pathname === link.href
                 ? "font-semibold text-black"
                 : "text-gray-600"
-            } hover:text-black transition`}
+              } hover:text-black transition`}
           >
             {link.label}
           </Link>
@@ -150,11 +149,11 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-3 text-lg ${
-                  pathname === link.href
-                    ? "font-semibold text-black"
-                    : "text-gray-600"
-                } hover:text-black transition`}
+                className={`flex items-center gap-3 text-lg px-3 py-2 rounded-lg transition ${pathname === link.href
+                    ? "font-semibold text-black bg-gray-100"
+                    : "text-gray-600 hover:text-black hover:bg-gray-50"
+                  }`}
+                onClick={() => setMenuOpen(false)}
               >
                 {link.icon}
                 {link.label}
@@ -163,20 +162,36 @@ export default function Navbar() {
 
             <div className="mt-auto pb-8">
               {loading ? (
-                <p>Loading...</p>
+                <div className="flex items-center justify-center py-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-black"></div>
+                </div>
               ) : user ? (
                 <>
                   <div className="flex items-center gap-3 mb-4">
                     <FaShoppingCart className="text-xl" />
-                    <Link href="/cart" className="text-lg">
+                    <Link
+                      href="/cart"
+                      className="text-lg hover:text-black transition"
+                      onClick={() => setMenuOpen(false)}
+                    >
                       Cart
                     </Link>
                   </div>
-                  <div className="mb-4">
-                    <p className="uppercase font-semibold text-gray-600">
+                  <div className="flex items-center gap-3 mb-4">
+                    <IoPersonOutline className="text-xl" />
+                    <Link
+                      href="/profile"
+                      className="text-lg hover:text-black transition"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  </div>
+                  <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-600 mb-1">
                       Logged in as:
                     </p>
-                    <p className="uppercase font-semibold">{username}</p>
+                    <p className="uppercase font-semibold text-black">{username}</p>
                   </div>
                   <button
                     onClick={handleLogOut}
@@ -190,6 +205,7 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   className="w-full block text-center px-5 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition"
+                  onClick={() => setMenuOpen(false)}
                 >
                   Login
                 </Link>
