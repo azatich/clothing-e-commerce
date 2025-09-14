@@ -10,12 +10,14 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Shoe } from "@/types/products";
 import { addToCartShoe } from "../lib/add-to-cart";
+import { useRouter } from "next/navigation";
 
 const ShoesItem = ({ shoe }: { shoe: Shoe }) => {
   const [selectedQuantities, setSelectedQuantities] = useState<
     Record<number, number>
   >({});
   const selectedQty = selectedQuantities[shoe.id] || 1;
+  const router = useRouter();
 
   const discountedPrice = shoe.discount_percent
     ? Math.round(shoe.price * (1 - shoe.discount_percent / 100))
@@ -26,7 +28,12 @@ const ShoesItem = ({ shoe }: { shoe: Shoe }) => {
     if (result.success) {
       toast.success("Shoe added to cart!");
     } else {
-      toast.error(result.error);
+      if (result.error === "Please log in to add items to cart") {
+        toast.error("Please log in to add items to cart");
+        router.push("/login");
+      } else {
+        toast.error(result.error);
+      }
     }
   };
 
@@ -84,11 +91,10 @@ const ShoesItem = ({ shoe }: { shoe: Shoe }) => {
                 {selectedQty}
               </span>
               <button
-                className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${
-                  selectedQty >= shoe.quantity
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
+                className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${selectedQty >= shoe.quantity
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+                  }`}
                 onClick={() => handleIncrement(shoe, setSelectedQuantities)}
                 disabled={selectedQty >= shoe.quantity}
               >

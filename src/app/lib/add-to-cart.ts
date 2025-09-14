@@ -1,18 +1,16 @@
-"use server";
+"use client";
 
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { supabase } from "@/utils/supabase/clients";
 
 export async function addToCartHoodie(hoodieID: number, quantity: number) {
-  const supabase = await createClient();
-  
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    redirect("/login");
+    // Return error instead of redirect for client-side handling
+    return { success: false, error: "Please log in to add items to cart" };
   }
 
   const { data } = await supabase.from("hoodies").select().eq("id", hoodieID).single();
@@ -45,14 +43,14 @@ export async function addToCartHoodie(hoodieID: number, quantity: number) {
 }
 
 export async function addToCartShoe(shoeID: number, quantity: number) {
-  const supabase = await createClient();
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    redirect("/login");
+    // Return error instead of redirect for client-side handling
+    return { success: false, error: "Please log in to add items to cart" };
   }
 
   const { data } = await supabase.from("shoes").select().eq("id", shoeID).single();

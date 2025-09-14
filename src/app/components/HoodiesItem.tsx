@@ -10,19 +10,26 @@ import React, { useState } from "react";
 import { Hoodie } from "@/types/products";
 import { addToCartHoodie } from "../lib/add-to-cart";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const HoodiesItem = ({ hoodie }: { hoodie: Hoodie }) => {
   const [selectedQuantities, setSelectedQuantities] = useState<
     Record<number, number>
   >({});
   const selectedQty = selectedQuantities[hoodie.id] || 1;
+  const router = useRouter();
 
   const handleAddToCart = async () => {
     const result = await addToCartHoodie(hoodie.id, selectedQty);
     if (result.success) {
       toast.success("Hoodie added to cart!");
     } else {
-      toast.error(result.error);
+      if (result.error === "Please log in to add items to cart") {
+        toast.error("Please log in to add items to cart");
+        router.push("/login");
+      } else {
+        toast.error(result.error);
+      }
     }
   };
   const discountedPrice = Math.round(
@@ -80,11 +87,10 @@ const HoodiesItem = ({ hoodie }: { hoodie: Hoodie }) => {
             </button>
             <span className="font-semibold text-black px-2">{selectedQty}</span>
             <button
-              className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${
-                selectedQty >= hoodie.quantity
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
+              className={`bg-white text-black border px-2 rounded hover:bg-black hover:text-white transition duration-300 ${selectedQty >= hoodie.quantity
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+                }`}
               onClick={() => handleIncrement(hoodie, setSelectedQuantities)}
               disabled={selectedQty >= hoodie.quantity}
             >
