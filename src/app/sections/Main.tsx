@@ -81,11 +81,11 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div ref={heroRef} className="h-screen relative overflow-hidden">
+      <div ref={heroRef} className="h-screen min-h-screen relative overflow-hidden">
         {/* Background Video */}
         <Video
           src={getStarted}
-          className="absolute inset-0"
+          className="absolute inset-0 w-full h-full object-cover"
           muted
           loop
           autoPlay
@@ -104,9 +104,8 @@ const HomePage = () => {
                 {displayedText}
               </span>
               <span
-                className={`inline-block w-[2px] h-[1em] bg-white ml-2 ${
-                  isTyping ? "animate-blink" : ""
-                }`}
+                className={`inline-block w-[2px] h-[1em] bg-white ml-2 ${isTyping ? "animate-blink" : ""
+                  }`}
               />
             </span>
           </h1>

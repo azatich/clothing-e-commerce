@@ -5,8 +5,10 @@
   .navbar-link {
     @apply hover:bg-black hover:text-white rounded-xl px-4 py-2 transition duration-300
   }
+
   .navbar-link.active {
-@apply bg-black text-white;  }
+    @apply bg-black text-white;
+  }
 
   .second-sidebar-links {
     @apply hover:bg-black hover:text-white hover:scale-125 rounded-xl px-4 py-2 text-start transition duration-300
@@ -19,16 +21,48 @@
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  aspect-ratio: auto !important; /* remove the forced 16:9 */
+  z-index: 1 !important;
 }
 
-/* Ensure video itself fills parent */
+/* Ensure video itself fills parent while maintaining 16:9 aspect ratio */
 .next-video-container [data-next-video],
 .next-video-container mux-video {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
+  aspect-ratio: 16/9 !important;
+  /* Maintain 16:9 aspect ratio */
+}
+
+/* Mobile-specific video adjustments for 16:9 aspect ratio */
+@media (max-width: 768px) {
+  .next-video-container {
+    height: 100vh !important;
+    height: 100dvh !important;
+    /* Dynamic viewport height for mobile */
+  }
+
+  .next-video-container [data-next-video],
+  .next-video-container mux-video {
+    height: 100vh !important;
+    height: 100dvh !important;
+    aspect-ratio: 16/9 !important;
+    /* Maintain 16:9 on mobile */
+    object-fit: cover !important;
+    /* Crop to fill screen while maintaining ratio */
+  }
+}
+
+/* For very wide screens, ensure video covers full height */
+@media (min-width: 1920px) {
+
+  .next-video-container [data-next-video],
+  .next-video-container mux-video {
+    width: 100% !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+  }
 }
 
 #container {
@@ -37,7 +71,8 @@
   height: 5600px;
   opacity: 0;
 }
-#scrollDist {
-  height: 500%; /* Creates scroll area */
-}
 
+#scrollDist {
+  height: 500%;
+  /* Creates scroll area */
+}

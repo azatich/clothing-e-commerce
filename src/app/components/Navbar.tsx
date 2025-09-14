@@ -68,8 +68,8 @@ export default function Navbar() {
             key={link.href}
             href={link.href}
             className={`${pathname === link.href
-                ? "font-semibold text-black"
-                : "text-gray-600"
+              ? "font-semibold text-black"
+              : "text-gray-600"
               } hover:text-black transition`}
           >
             {link.label}
@@ -150,8 +150,8 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`flex items-center gap-3 text-lg px-3 py-2 rounded-lg transition ${pathname === link.href
-                    ? "font-semibold text-black bg-gray-100"
-                    : "text-gray-600 hover:text-black hover:bg-gray-50"
+                  ? "font-semibold text-black bg-gray-100"
+                  : "text-gray-600 hover:text-black hover:bg-gray-50"
                   }`}
                 onClick={() => setMenuOpen(false)}
               >

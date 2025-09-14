@@ -1,19 +1,12 @@
-// app/payment-success/page.tsx
+"use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default async function PaymentSuccess({
-  searchParams,
-}: {
-  searchParams?: Promise<{ amount?: string | string[] }>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const amount =
-    typeof resolvedSearchParams?.amount === "string"
-      ? resolvedSearchParams.amount
-      : Array.isArray(resolvedSearchParams?.amount)
-      ? resolvedSearchParams.amount[0]
-      : "0";
+function PaymentSuccessContent() {
+  const searchParams = useSearchParams();
+  const amount = searchParams.get('amount') || "0";
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
@@ -39,5 +32,17 @@ export default async function PaymentSuccess({
         </Link>
       </div>
     </main>
+  );
+}
+
+export default function PaymentSuccess() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white p-6">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      </main>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
