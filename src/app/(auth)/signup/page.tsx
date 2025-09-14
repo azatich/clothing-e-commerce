@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signup } from "../actions";
+import { supabase } from "@/utils/supabase/clients";
 import { CiUser } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
 import { CiLock } from "react-icons/ci";
@@ -35,23 +35,31 @@ export default function SignupPage() {
       return;
     }
 
-    const fd = new FormData();
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            phone: formData.phone,
+            username: formData.username,
+          },
+        },
+      });
 
-    fd.append("email", formData.email);
-    fd.append("password", formData.password);
-    fd.append("phone", formData.phone);
-    fd.append("username", formData.username);
-
-    const data = await signup(fd);
-    if (data.error) {
-      setError(data.error);
-    } else {
-      toast.success("Please, confirm your email before signing in", {
-            position: "top-center",
-            autoClose: 2300,
-          });
-      router.push("/login");
+      if (error) {
+        setError(error.message);
+      } else {
+        toast.success("Please, confirm your email before signing in", {
+          position: "top-center",
+          autoClose: 2300,
+        });
+        router.push("/login");
+      }
+    } catch (error) {
+      setError('An unexpected error occurred');
     }
+
     setLoading(false);
   };
 
@@ -138,16 +146,16 @@ export default function SignupPage() {
             {loading ? "Signing up..." : "Sign Up"}
           </button>
           <div>
-              <p className="text-gray-500">
-                Already have an account?{" "}
-                <span
-                  onClick={() => router.push("/login")}
-                  className="text-black font-semibold cursor-pointer hover:text-gray-500 transition duration-300"
-                >
-                  Sign in
-                </span>
-              </p>
-            </div>
+            <p className="text-gray-500">
+              Already have an account?{" "}
+              <span
+                onClick={() => router.push("/login")}
+                className="text-black font-semibold cursor-pointer hover:text-gray-500 transition duration-300"
+              >
+                Sign in
+              </span>
+            </p>
+          </div>
         </div>
       </form>
     </div>

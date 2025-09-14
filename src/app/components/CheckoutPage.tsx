@@ -14,8 +14,6 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log(amount);
-  
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -31,11 +29,13 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       return;
     }
 
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `https://futuristic-e-commerce.netlify.app/payment-success?amount=${amount}`,
+        return_url: `${baseUrl}/payment-success?amount=${amount}`,
       },
     });
 
